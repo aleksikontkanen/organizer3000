@@ -1,0 +1,49 @@
+version: "3"
+services:
+  nginx:
+    container_name: app-nginx
+    image: nginx:1.13
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./client/dist:/var/www/organizer3000/public_html
+    depends_on:
+      - server
+      - client
+
+  mysql:
+    container_name: app-mysql
+    image: mysql/mysql-server:5.7
+    environment:
+      MYSQL_DATABASE: organizer3000
+      MYSQL_ROOT_PASSWORD: 1337_0rGan1z3r
+      MYSQL_ROOT_HOST: "%"
+    ports:
+      - "3306:3306"
+    restart: always
+    volumes:
+      - ./database:/tmp/database
+    command: mysqld --init-file="/tmp/database/install_db.sql"
+
+  server:
+    restart: always
+    build: ./server
+    working_dir: /server
+    volumes:
+      - ./server:/server
+      - ~/.m2:/root/.m2
+    expose:
+      - "8080"
+    command: mvn clean spring-boot:run
+    depends_on:
+      - mysql
+
+  client:
+    build: ./client
+    working_dir: /client
+    volumes:
+      - ./client:/client
+    command: npm run build

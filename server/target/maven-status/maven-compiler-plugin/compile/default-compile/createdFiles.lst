@@ -1,0 +1,4 @@
+net/kontkanen/organizer3000/Organizer3000Application.class
+net/kontkanen/organizer3000/controller/TodoListController.class
+net/kontkanen/organizer3000/service/TodoListService.class
+net/kontkanen/organizer3000/model/TodoList.class

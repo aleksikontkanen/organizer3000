@@ -1,0 +1,4 @@
+/server/src/main/java/net/kontkanen/organizer3000/model/TodoList.java
+/server/src/main/java/net/kontkanen/organizer3000/controller/TodoListController.java
+/server/src/main/java/net/kontkanen/organizer3000/Organizer3000Application.java
+/server/src/main/java/net/kontkanen/organizer3000/service/TodoListService.java
