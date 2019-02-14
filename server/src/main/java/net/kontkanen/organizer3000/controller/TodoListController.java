@@ -5,6 +5,8 @@ import net.kontkanen.organizer3000.model.TodoList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 
 @RestController
 public class TodoListController {
@@ -20,6 +22,11 @@ public class TodoListController {
 	@GetMapping("/todolist")
 	Iterable<TodoList> read() {
 		return this.todoListService.findAll();
+	}
+
+	@GetMapping("/todolist/{id}")
+	Optional<TodoList> findById(@PathVariable Integer id) {
+		return this.todoListService.findById(id);
 	}
 
 	@PutMapping("/todolist")

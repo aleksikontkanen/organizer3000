@@ -1,0 +1,160 @@
+@import "./../variables.scss";
+
+$noteWidth: 20rem;
+$noteHeigth: 20rem;
+
+.header {
+    display: flex;
+    align-items: center;
+    background: $colorDark1;
+    padding: 0.2rem 1rem;
+
+    .header__logo {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 3rem;
+        font-style: italic;
+        text-shadow:
+            0 0 0.3rem #c3c3c3,
+            0.15rem 0 0.1rem #000;
+
+        .header__logo__text {
+            color: $colorLight1;
+            font-weight: lighter;
+        }
+
+        .header__logo__number {
+            color: $highlight3;
+            font-size: 3.5rem;
+            font-weight: bold;
+        }
+    }
+}
+
+.main {
+    display: block;
+    padding: 2rem;
+
+    &__notes {
+        display: flex;
+        align-items: flex-start;
+
+        &__add {
+            transition: transform 0.4s;
+            position: relative;
+            text-align: center;
+            color: $highlight3;
+            width: $noteWidth;
+            height: $noteHeigth;
+            padding-top: 4.5rem;
+            text-shadow: 0 0.1rem 0.5rem #000;
+            cursor: pointer;
+
+            &:hover,
+            &:focus {
+                transform: scale(1.05);
+            }
+
+            &__plus {
+                font-size: 10rem;
+                line-height: 7rem;
+            }
+
+            &__label {
+                font-size: 2rem;
+                font-weight: bold;
+            }
+        }
+    }
+
+    &__edit-note {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba($black, 0.75);
+    }
+}
+
+.note {
+    position: relative;
+    color: $black;
+    background: $colorLight1;
+    background: linear-gradient($colorLight1, $colorDark2, $colorDark1);
+    border-bottom-left-radius: 0.5rem 10rem;
+    border-top-right-radius: 10rem 0.2rem;
+    border-bottom-right-radius: 10rem 0.3rem;
+    padding: 1rem;
+    font-family: cursive;
+    box-shadow: 0.9rem 1rem 0.8rem -0.6rem rgba($black, 0.8);
+
+    &--preview {
+        transition: transform 0.4s;
+        width: $noteWidth;
+        height: $noteHeigth;
+        cursor: pointer;
+
+        &:hover,
+        &:focus {
+            transform: scale(1.1) rotate(1grad);
+        }
+    }
+
+    &--full {
+        position: absolute;
+        top: 10rem;
+        left: 0;
+        right: 0;
+        width: 50rem;
+        max-width: 90vw;
+        min-height: 50vh;
+        max-height: 90vh;
+        margin: auto;
+    }
+
+    &:before {
+        content: "";
+        position: absolute;
+        top: -1rem;
+        left: 0;
+        right: 0;
+        margin: auto;
+        height: 2rem;
+        width: 5rem;
+        background: rgba($white, 0.6);
+        transform: rotate(-6grad);
+    }
+
+    &__close {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+    }
+
+    &__title {
+        font-weight: bold;
+        padding-bottom: 1rem;
+        font-size: 1.8rem;
+    }
+
+    &__task {
+        font-weight: light;
+        padding-bottom: 1rem;
+        font-size: 1.4rem;
+
+        &:before {
+            display: inline-block;
+            content: "";
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 50%;
+            background: $black;
+            margin-right: 0.5rem;
+            vertical-align: middle;
+        }
+
+        .note--full & {
+            border-bottom: 0.1rem solid $colorDark2;
+        }
+    }
+}

@@ -4,6 +4,10 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.OneToMany;
+import javax.persistence.CascadeType;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class TodoList {
@@ -12,11 +16,19 @@ public class TodoList {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String name;
+	@OneToMany(cascade = CascadeType.ALL)
+	private List<Task> tasks;
 
 	public TodoList() { }
 
 	public TodoList(String name) {
 		this.name = name;
+		this.tasks = new ArrayList<>();
+	}
+
+	public TodoList(String name, List<Task> tasks) {
+		this.name = name;
+		this.tasks = tasks;
 	}
 
 	public int getId() {
@@ -33,5 +45,13 @@ public class TodoList {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public List<Task> getTasks() {
+		return this.tasks;
+	}
+
+	public void setTasks(List<Task> tasks) {
+		this.tasks = tasks;
 	}
 }
