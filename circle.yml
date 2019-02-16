@@ -22,7 +22,7 @@ jobs:
   client:
     working_directory: ~/client
     docker:
-      - image: circleci/node:10
+      - image: circleci/node:10.15-browsers
     steps:
       - checkout
       - run:
@@ -39,16 +39,16 @@ jobs:
             - ./client/node_modules
       - run:
           name: test
-          command: cd client && npm test
-      - run:
-          name: code-coverage
-          command: './client/node_modules/.bin/nyc report --reporter=text-lcov'
+          command: cd client && npm run test:single
+      # - run:
+      #     name: code-coverage
+      #     command: './client/node_modules/.bin/nyc report --reporter=text-lcov'
       - store_artifacts:
           path: client/test-results.xml
           prefix: tests
-      - store_artifacts:
-          path: client/coverage
-          prefix: coverage
+      # - store_artifacts:
+      #     path: client/coverage
+      #     prefix: coverage
       - store_test_results:
           path: client/test-results.xml
 workflows:

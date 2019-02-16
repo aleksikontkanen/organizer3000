@@ -1,9 +1,0 @@
-net/kontkanen/organizer3000/Organizer3000Application.class
-net/kontkanen/organizer3000/controller/TodoListControllerExceptionHandler.class
-net/kontkanen/organizer3000/service/TodoListService.class
-net/kontkanen/organizer3000/model/TodoList.class
-net/kontkanen/organizer3000/model/Task.class
-net/kontkanen/organizer3000/model/TaskPriority.class
-net/kontkanen/organizer3000/utils/ErrorMessage.class
-net/kontkanen/organizer3000/controller/TodoListController.class
-net/kontkanen/organizer3000/model/TaskState.class
