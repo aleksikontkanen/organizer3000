@@ -37,6 +37,7 @@ $noteHeigth: 20rem;
     &__notes {
         display: flex;
         align-items: flex-start;
+        flex-wrap: wrap;
 
         &__add {
             transition: transform 0.4s;
@@ -64,6 +65,10 @@ $noteHeigth: 20rem;
                 font-weight: bold;
             }
         }
+
+        & > .note--preview {
+            margin: 0 2rem 2rem 0;
+        }
     }
 
     &__edit-note {
@@ -80,12 +85,12 @@ $noteHeigth: 20rem;
     position: relative;
     color: $black;
     background: $colorLight1;
-    background: linear-gradient($colorLight1, $colorDark2, $colorDark1);
+    background: linear-gradient(150grad, #e8ddcb 0%, #cdb380 100%);
     border-bottom-left-radius: 0.5rem 10rem;
     border-top-right-radius: 10rem 0.2rem;
     border-bottom-right-radius: 10rem 0.3rem;
     padding: 1rem;
-    font-family: cursive;
+    font-family: 'Caveat', cursive;
     box-shadow: 0.9rem 1rem 0.8rem -0.6rem rgba($black, 0.8);
 
     &--preview {
@@ -97,6 +102,16 @@ $noteHeigth: 20rem;
         &:hover,
         &:focus {
             transform: scale(1.1) rotate(1grad);
+
+            .note__delete {
+                opacity: 1;
+            }
+        }
+
+        & .note__delete {
+            transition: opacity 0.3s;
+            opacity: 0;
+            right: 1rem;
         }
     }
 
@@ -129,17 +144,34 @@ $noteHeigth: 20rem;
         position: absolute;
         top: 1rem;
         right: 1rem;
+        appearance: none;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+    }
+
+    &__delete {
+        position: absolute;
+        top: 1rem;
+        right: 3rem;
+        appearance: none;
+        background: transparent;
+        border: none;
+        cursor: pointer;
     }
 
     &__title {
+        font-family: 'Permanent Marker', cursive;
         font-weight: bold;
         padding-bottom: 1rem;
         font-size: 1.8rem;
     }
 
     &__task {
+        display: flex;
+        align-items: center;
         font-weight: light;
-        padding-bottom: 1rem;
+        padding-top: 1rem;
         font-size: 1.4rem;
 
         &:before {
@@ -150,11 +182,109 @@ $noteHeigth: 20rem;
             border-radius: 50%;
             background: $black;
             margin-right: 0.5rem;
-            vertical-align: middle;
+            position: relative;
+            top: -0.2rem;
         }
 
         .note--full & {
-            border-bottom: 0.1rem solid $colorDark2;
+            border-bottom: 0.1rem solid $greyish;
         }
+
+        &__title {
+            flex: 1;
+            margin-right: 1rem;
+        }
+
+        &__description {
+            flex: 1;
+            margin-right: 1rem;
+        }
+
+        &__deadline,
+        &__completion {
+            width: 10rem;
+            margin-right: 1rem;
+        }
+
+        &__completion {
+            color: $highlight3;
+        }
+
+        &__check {
+            background: transparent;
+            width: 2rem;
+            height: 2rem;
+        }
+
+        &__delete {
+            appearance: none;
+            border: none;
+            background: none;
+            cursor: pointer;
+        }
+    }
+
+    &__add {
+        appearance: none;
+        border: none;
+        background: none;
+        margin-top: 2rem;
+        cursor: pointer;
+    }
+
+    &__editor {
+        display: flex;
+        align-items: flex-start;
+        margin-top: 3rem;
+
+        &__field {
+            flex: 1;
+            margin-right: 0.5rem;
+            &__label {
+                font-family: 'Permanent Marker', cursive;
+                display: block;
+            }
+            &__input {
+                display: block;
+                background: transparent;
+                border: none;
+                border-bottom: 0.1rem solid $greyish;
+                width: 100%;
+                height: 2rem;
+            }
+
+            &--save,
+            &--cancel {
+                flex: 0;
+            }
+        }
+    }
+}
+
+button {
+    transition: background 0.3s;
+    appearance: none;
+    background: $colorLight2;
+    padding: 0.5rem 1rem 1.1rem;
+    border-radius: 0.4rem;
+    border: 0.1rem solid darken($colorLight2, 10%);
+    cursor: pointer;
+    line-height: 0;
+    &:hover, &:focus {
+        background: darken($colorLight2, 10%);
+    }
+}
+
+input[type="text"] {
+    transition: background 0.3s;
+    appearance: none;
+    background: transparent;
+    width: 100%;
+    border: none;
+    border-radius: 0.4rem;
+
+    &:focus,
+    &:hover {
+        background: rgba($black, 0.1);
     }
 }

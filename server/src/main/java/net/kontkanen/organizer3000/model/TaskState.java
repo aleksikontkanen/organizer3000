@@ -1,6 +1,6 @@
 package net.kontkanen.organizer3000.model;
 
-enum TaskState {
+public enum TaskState {
     PLANNED,
     ACTIVE,
     COMPLETED

@@ -6,31 +6,81 @@
 </header>
 
 <main class="main">
-    <div class="main__notes">
-        <div class="note note--preview" tabindex="0">
-            <div class="note__title">Note title example</div>
-            <div class="note__content">
-                <div class="note__task">task 1</div>
-                <div class="note__task">task 2 with longer description</div>
-                <div class="note__task">task 3 is this</div>
-                <div class="note__task">Do we even need fourth task?</div>
+    <div class="main__notes" *ngIf="todoLists">
+        <div class="note note--preview" tabindex="0" *ngFor="let todoList of todoLists" (click)="selectList(todoList)">
+            <button class="note__delete" (click)="deleteList(todoList)"><fa name="trash"></fa></button>
+            <div class="note__title">{{ todoList.name }}</div>
+            <div class="note__content" *ngFor="let task of todoList.tasks">
+                <div class="note__task">{{ task.name }}</div>
             </div>
         </div>
-        <div class="main__notes__add" tabindex="0">
+        <div class="main__notes__add" tabindex="0" (click)="addList()">
             <div class="main__notes__add__plus">+</div>
             <div class="main__notes__add__label">Add todo list</div>
         </div>
     </div>
 
-    <div class="main__edit-note">
+    <div class="main__edit-note" *ngIf="selectedTodoList">
         <div class="note note--full" tabindex="0">
-            <button class="note__close">X</button>
-            <div class="note__title">Note title example</div>
+            <button class="note__delete" (click)="deleteList(selectedTodoList)"><fa name="trash"></fa></button>
+            <button class="note__close" (click)="removeSelectedList()"><fa name="times"></fa></button>
+            <div class="note__title">
+                <input #previousNoteTitle type="hidden">
+                <input type="text" [(ngModel)]="selectedTodoList!.name"
+                    (focus)="previousNoteTitle.value = selectedTodoList!.name;"
+                    (blur)="selectedTodoList!.name === '' ?
+                        selectedTodoList!.name = previousNoteTitle.value :
+                        updateTodoList(selectedTodoList)">
+            </div>
             <div class="note__content">
-                <div class="note__task">task 1</div>
-                <div class="note__task">task 2 with longer description</div>
-                <div class="note__task">task 3 is this</div>
-                <div class="note__task">Do we even need fourth task?</div>
+                <div class="note__task" *ngFor="let task of selectedTodoList!.tasks">
+                    <span class="note__task__title">
+                        <input #previousTaskTitle type="hidden">
+                        <input type="text" [(ngModel)]="task.name"
+                            (focus)="previousTaskTitle.value = task.name;"
+                            (blur)="task.name === '' ?
+                                task.name = previousTaskTitle.value :
+                                updateTodoList(selectedTodoList)">
+                    </span>
+                    <span class="note__task__description">
+                        <input type="text" [(ngModel)]="task.description" (blur)="updateTodoList(selectedTodoList)">
+                    </span>
+                    <span class="note__task__deadline" *ngIf="task.completionTime === undefined">{{ task.expirationTime ? 'Due ' + task.expirationTime!.format('l') : '' }}</span>
+                    <span class="note__task__completion" *ngIf="task.completionTime">Done {{ task.completionTime!.format('l') }}</span>
+                    <input class="note__task__check" #state type="checkbox" [checked]="task.state === taskState.COMPLETED" (change)="toggleTaskState(selectedTodoList, task, state.checked)">
+                    <button class="note__task__delete" (click)="deleteTask(task)"><fa name="trash"></fa></button>
+                </div>
+                <button class="note__add" *ngIf="!editPlaceholderTask" (click)="toggleEditor()">
+                    <fa name="plus"></fa> Add task
+                </button>
+
+                <div class="note__editor" *ngIf="editPlaceholderTask">
+                    <div class="note__editor__field note__editor__field--name">
+                        <label class="note__editor__field__label">Name: </label>
+                        <input class="note__editor__field__input" [(ngModel)]="editPlaceholderTask!.name">
+                    </div>
+                    <div class="note__editor__field note__editor__field--description">
+                        <label class="note__editor__field__label">Description: </label>
+                        <input class="note__editor__field__input" [(ngModel)]="editPlaceholderTask!.description">
+                    </div>
+                    <div class="note__editor__field note__editor__field--deadline">
+                        <label class="note__editor__field__label">Deadline: </label>
+                        <input type="date"
+                            class="note__editor__field__input"
+                            [ngModel]="editPlaceholderTask!.expirationTime ? editPlaceholderTask!.expirationTime!.format('YYYY-MM-DD') : undefined"
+                            (ngModelChange)="editPlaceholderTask!.expirationTime = m($event)">
+                    </div>
+                    <div class="note__editor__field note__editor__field--save">
+                        <button class="note__editor__field__button" (click)="saveEditorTask()">
+                            <fa name="pen"></fa> Save
+                        </button>
+                    </div>
+                    <div class="note__editor__field note__editor__field--cancel">
+                        <button class="note__editor__field__button" (click)="toggleEditor()">
+                            <fa name="pen"></fa> Cancel
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

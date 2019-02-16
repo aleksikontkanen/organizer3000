@@ -1,31 +1,38 @@
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, async, ComponentFixture, fakeAsync } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { AppService } from './app-service/app.service';
+import { AppServiceMock } from './app-service/app.service.mock';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('AppComponent', () => {
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [
-        AppComponent
-      ],
-    }).compileComponents();
-  }));
+    let fixture: ComponentFixture<AppComponent>;
+    let app: AppComponent;
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app).toBeTruthy();
-  });
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [
+                AppComponent
+            ],
+            providers: [{
+                provide: AppService,
+                useClass: AppServiceMock
+            }],
+            schemas: [NO_ERRORS_SCHEMA]
+        }).compileComponents();
 
-  it(`should have as title 'client'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('client');
-  });
+        fixture = TestBed.createComponent(AppComponent);
+        app = fixture.debugElement.componentInstance;
+    }));
 
-  it('should render title in a h1 tag', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to client!');
-  });
+    it('should create the app', () => {
+        expect(app).toBeTruthy();
+    });
+
+    it('should subscribe to lists', fakeAsync(() => {
+        const serviceSpy = spyOn(AppServiceMock.prototype, 'getTodoLists').and.callThrough();
+
+        fixture.detectChanges();
+
+        expect(serviceSpy.calls.count()).toBe(1);
+    }));
 });

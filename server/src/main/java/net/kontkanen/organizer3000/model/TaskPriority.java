@@ -1,6 +1,6 @@
 package net.kontkanen.organizer3000.model;
 
-enum TaskPriority {
+public enum TaskPriority {
     LOW,
     MEDIUM,
     HIGH

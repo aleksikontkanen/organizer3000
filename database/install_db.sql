@@ -9,14 +9,5 @@
 
 CREATE DATABASE /*!32312 IF NOT EXISTS*/`organizer3000` /*!40100 DEFAULT CHARACTER SET latin1 */;
 
-/* USE `organizer3000`; */
-
-/*Table structure for table `todolists` */
-
-/* DROP TABLE IF EXISTS `todolists`;
-
-CREATE TABLE `todolists` (
-  `todolistId` int(11) NOT NULL,
-  `todolistName` varchar(50) NOT NULL
-  PRIMARY KEY  (`todolistId`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1; */
+CREATE USER /*!32312 IF NOT EXISTS*/ 'db_user'@'%' IDENTIFIED BY '1337_0rGan1z3r';
+GRANT all ON *.* TO 'db_user'@'%';
