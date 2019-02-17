@@ -3,11 +3,13 @@ import { AppService } from './app-service/app.service';
 import { Todolist, Task, TaskState, TaskPriority } from './app.models';
 import { first } from 'rxjs/operators';
 import moment from 'moment-es6';
+import { APP_ANIMATIONS } from './app.animations';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
+    animations: APP_ANIMATIONS,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit {
@@ -42,6 +44,7 @@ export class AppComponent implements OnInit {
     }
 
     public removeSelectedList(): void {
+        this.editPlaceholderTask = undefined;
         this.selectedTodoList = undefined;
         this.cdr.detectChanges();
     }
@@ -88,7 +91,7 @@ export class AppComponent implements OnInit {
 
         const deletedTodoList = this.todoLists.splice(listToDeleteIndex, 1)[0];
 
-        this.cdr.detectChanges(); // Eagerly display results
+        this.removeSelectedList(); // Eagerly display results
 
         this.api.deleteTodoList(todoList.id).subscribe(
             () => { }, // Success
@@ -226,5 +229,13 @@ export class AppComponent implements OnInit {
 
                 this.cdr.detectChanges();
             });
+    }
+
+    public trackByTodoListIndex(index: number, note: Todolist): number {
+        return index || 0;
+    }
+
+    public trackByTaskIndex(index: number, task: Task): number {
+        return index || 0;
     }
 }

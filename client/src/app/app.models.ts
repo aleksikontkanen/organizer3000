@@ -1,7 +1,7 @@
 import moment from 'moment-es6';
 
 export class Todolist {
-    public readonly id?: number;
+    public id?: number;
     public name: string;
     public tasks: Array<Task>;
 
@@ -44,7 +44,7 @@ export interface ITodolistDto {
 
 
 export class Task {
-    public readonly id?: number;
+    public id?: number;
     public name: string;
     public description?: string;
     public priority: TaskPriority;

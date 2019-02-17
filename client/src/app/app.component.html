@@ -7,8 +7,8 @@
 
 <main class="main">
     <div class="main__notes" *ngIf="todoLists">
-        <div class="note note--preview" tabindex="0" *ngFor="let todoList of todoLists" (click)="selectList(todoList)">
-            <button class="note__delete" (click)="deleteList(todoList)"><fa name="trash"></fa></button>
+        <div @note class="note note--preview" tabindex="0" *ngFor="let todoList of todoLists; trackBy: trackByTodoListIndex" (click)="selectList(todoList)">
+            <button class="note__delete" (click)="deleteList(todoList); $event.stopPropagation();"><fa name="trash"></fa></button>
             <div class="note__title">{{ todoList.name }}</div>
             <div class="note__content" *ngFor="let task of todoList.tasks">
                 <div class="note__task">{{ task.name }}</div>
@@ -22,7 +22,7 @@
 
     <div class="main__edit-note" *ngIf="selectedTodoList">
         <div class="note note--full" tabindex="0">
-            <button class="note__delete" (click)="deleteList(selectedTodoList)"><fa name="trash"></fa></button>
+            <button class="note__delete" (click)="deleteList(selectedTodoList); $event.stopPropagation();"><fa name="trash"></fa></button>
             <button class="note__close" (click)="removeSelectedList()"><fa name="times"></fa></button>
             <div class="note__title">
                 <input #previousNoteTitle type="hidden">
@@ -33,7 +33,7 @@
                         updateTodoList(selectedTodoList)">
             </div>
             <div class="note__content">
-                <div class="note__task" *ngFor="let task of selectedTodoList!.tasks">
+                <div @task class="note__task" *ngFor="let task of selectedTodoList!.tasks; trackBy: trackByTaskIndex">
                     <span class="note__task__title">
                         <input #previousTaskTitle type="hidden">
                         <input type="text" [(ngModel)]="task.name"
