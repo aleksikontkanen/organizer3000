@@ -18,6 +18,4 @@ Install Docker and run command:
 
     docker-compose up
 
-or if you want live reloading on client:
-
-    docker-compose -f docker-compose.dev.yaml up
+Go to http://localhost in your browser
